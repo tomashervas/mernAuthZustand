@@ -1,16 +1,29 @@
-/* Functional component login page */
+/* Component login page */
+import { useAuthStore } from "../store/auth";
 
 const LoginPage = () => {
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const {setToken} = useAuthStore()
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
         const data = new FormData(event.currentTarget);
-        
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+
+        //post login request
+        const res = await fetch(import.meta.env.VITE_BASE_URL + '/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: data.get('email'),
+                password: data.get('password')
+            })
+        })
+        const jsonResponse = await res.json();
+        setToken(jsonResponse.token);
+        console.log(jsonResponse);
     }
 
   return (
