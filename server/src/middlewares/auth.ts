@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { AuthRequest } from "../../interfaces";
+import jwt from "jsonwebtoken";
+import { AuthRequest } from "../interfaces";
 
 export const requireAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.headers.authorization) {
@@ -17,6 +17,4 @@ export const requireAuth = (req: AuthRequest, res: Response, next: NextFunction)
         req.user = user;
         next();
     })
-
-    next();
 }    

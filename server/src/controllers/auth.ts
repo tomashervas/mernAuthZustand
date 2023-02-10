@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { AuthRequest } from "../interfaces";
 
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -24,7 +25,10 @@ export const login = async (req: Request, res: Response) => {
             email,
         },
     })
+}
 
-
-
+export const profile = (req: AuthRequest, res: Response) => {
+    res.status(200).json({
+        user: req.user,
+    })
 }

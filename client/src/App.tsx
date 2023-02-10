@@ -1,11 +1,15 @@
 import './App.css'
+import LoginPage from './pages/LoginPage'
 
 function App() {
 
   return (
-    <div className="App">
-      <h1>Hola Tomás!</h1>
-    </div>
+    <>
+      <h2>Autenticacion MERN Zustand</h2>
+      <main>
+        <LoginPage />
+      </main>
+    </>
   )
 }
 
