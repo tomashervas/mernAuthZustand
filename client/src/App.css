@@ -5,6 +5,21 @@
   text-align: center;
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-list {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.navbar-list li {
+  margin: 0 1rem;
+}
+
 form {
   margin: 0 auto;
   padding: 2rem;

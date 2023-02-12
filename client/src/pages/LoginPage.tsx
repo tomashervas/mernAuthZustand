@@ -1,9 +1,11 @@
 /* Component login page */
+import {useNavigate} from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 
 const LoginPage = () => {
 
-    const {setToken} = useAuthStore()
+    const {setToken, setProfile} = useAuthStore()
+    const navigate = useNavigate()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,6 +26,20 @@ const LoginPage = () => {
         const jsonResponse = await res.json();
         setToken(jsonResponse.token);
         console.log(jsonResponse);
+
+        const resProfile = await fetch(import.meta.env.VITE_BASE_URL + '/api/profile', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jsonResponse.token}`
+            }
+        })
+        const jsonResponseProfile = await resProfile.json();
+        setProfile(jsonResponseProfile);
+
+        navigate('/profile');
+
+        console.log(jsonResponseProfile)
     }
 
   return (
@@ -33,11 +49,11 @@ const LoginPage = () => {
         <form className="form" onSubmit={handleSubmit}>
             <div className="">
                 <label>Email</label>
-                <input name="email" type="email" placeholder="Email" />
+                <input name="email" type="email" placeholder="Email" required/>
             </div>
             <div className="">
                 <label>Password</label>
-                <input name="password" type="password" placeholder="Password" />
+                <input name="password" type="password" placeholder="Password" required/>
             </div>
             <button type="submit" className="button">Submit</button>
         </form>
