@@ -4,12 +4,11 @@ import { useAuthStore } from "../store/auth";
 
 const LoginPage = () => {
 
-    const {setToken, setProfile} = useAuthStore()
+    const {setToken, setUser} = useAuthStore()
     const navigate = useNavigate()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
         const data = new FormData(event.currentTarget);
 
         //post login request
@@ -24,8 +23,10 @@ const LoginPage = () => {
             })
         })
         const jsonResponse = await res.json();
-        setToken(jsonResponse.token);
-        console.log(jsonResponse);
+        if(jsonResponse.token) {
+            setToken(jsonResponse.token)
+            console.log(jsonResponse);
+        }
 
         const resProfile = await fetch(import.meta.env.VITE_BASE_URL + '/api/profile', {
             method: 'GET',
@@ -34,12 +35,12 @@ const LoginPage = () => {
                 'Authorization': `Bearer ${jsonResponse.token}`
             }
         })
-        const jsonResponseProfile = await resProfile.json();
-        setProfile(jsonResponseProfile);
-
-        navigate('/profile');
-
-        console.log(jsonResponseProfile)
+        const jsonResponseUser = await resProfile.json();
+        if(jsonResponseUser.user) {
+            setUser(jsonResponseUser.user)
+            console.log(jsonResponseUser);
+            navigate('/profile');
+        }
     }
 
   return (

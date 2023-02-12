@@ -3,17 +3,21 @@ import { persist } from 'zustand/middleware';
 
 type State = {
     token: string,
-    profile: any,
+    user: any,
+    isAuth: boolean,
     setToken: (token: string) => void,
-    setProfile: (profile: any) => void
+    setUser: (user: any) => void,
+    logout: () => void
 }
 
 export const useAuthStore = create(
     persist<State>((set)=>({
         token: '',
-        profile: null,
+        user: null,
+        isAuth: false,
         setToken: (token: string) => set({token}),
-        setProfile: (profile: any) => set({profile})
+        setUser: (user: any) => set({user, isAuth: true}),
+        logout: () => set({token: '', user: null, isAuth: false})
     }),{name: 'auth'}),
 )
 

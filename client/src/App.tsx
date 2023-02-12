@@ -7,8 +7,10 @@ import ProfilePage from './pages/ProfilePage'
 import './App.css'
 import DashboardPage from './pages/DashboardPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { useAuthStore } from './store/auth'
 
 function App() {
+  const {isAuth} = useAuthStore()
 
   return (
     <BrowserRouter>
@@ -17,7 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         
-        <Route element={<ProtectedRoute isAllowed={true} />}>
+        <Route element={<ProtectedRoute isAllowed={isAuth} />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
